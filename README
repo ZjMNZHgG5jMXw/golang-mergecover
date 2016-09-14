@@ -1,0 +1,56 @@
+---------------------------------------------------------------------------
+mergecover - merge golang cover profiles across multiple packages
+---------------------------------------------------------------------------
+
+Usage
+---------------
+
+  $ mergecover outfile infile1 [infile2 ...]
+
+Docker
+---------------
+
+  $ docker run wok6fvjui5ur2/mergecover mergecover
+
+Compile
+---------------
+
+Install stack from stackage.org or from your favourite package manager.
+Then run
+
+  $ stack init
+  $ stack install
+
+Description
+---------------
+
+At the time of writing this tool, it was not possible with GoLang standard
+tools to create a Go coverprofile of multiple packages. With merge cover, you
+can merge multiple cover profiles to one that declares a statement as covered,
+iff the statement is covered according to one of the cover profiles.
+
+Create profiles for each subprofile like that:
+
+  $ go test --coverpkgs=super... --coverprofile=sub.profile super/sub
+
+Merge the profiles:
+
+  $ mergecover merged.profile *.profile
+
+Review the merged profile:
+
+  $ go tool cover -html=merged.profile
+
+Limitations
+---------------
+
+* "mode: set" is the only one supported
+* the input cover profiles should be created from one and the same source
+* the parser for cover profiles is pretty simple, maybe too simple
+
+Closing remark
+---------------
+
+Please report any problems and let me know of GoLang (re-)implementations.
+
+===========================================================================
